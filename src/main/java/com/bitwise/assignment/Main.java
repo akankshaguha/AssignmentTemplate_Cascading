@@ -13,6 +13,8 @@ import cascading.tap.hadoop.Lfs;
 
 import java.util.Properties;
 
+
+
 /**
  * Created by akankshag on 7/15/2016.
  */
@@ -20,9 +22,9 @@ public class Main {
     public static void main(String[] args) {
 
         //setting path
-        String inputpath1= "C://Users//akankshag//IdeaProjects//AssignmentTemplate_Cascading//src//main//resources//Master_CSV.txt";
-        String inputpath2= "C://Users//akankshag//IdeaProjects//AssignmentTemplate_Cascading//src//main//resources//Transaction.txt";
-        String outputpath= "C://Users//akankshag//IdeaProjects//AssignmentTemplate_Cascading//src//main//resources//Results.txt";
+        String inputpath1 = "C://Users//akankshag//IdeaProjects//AssignmentTemplate_Cascading//src//main//resources//Master_CSV.txt";
+        String inputpath2 = "C://Users//akankshag//IdeaProjects//AssignmentTemplate_Cascading//src//main//resources//Transaction.txt";
+       String outputpath = "C://Users//akankshag//IdeaProjects//AssignmentTemplate_Cascading//src//main//resources//Results.txt";
 
 
        /* //created fields
@@ -35,7 +37,7 @@ public class Main {
         Scheme sinkScheme = new TextDelimited(true, ",");
 
         //Tap
-        Tap sourceTap1 = new Lfs(sourceScheme1,inputpath1 );
+        Tap sourceTap1 = new Lfs(sourceScheme1, inputpath1);
         Tap sourceTap2 = new Lfs(sourceScheme2, inputpath2);
         Tap sinkTap = new Lfs(sinkScheme, outputpath, SinkMode.REPLACE);
 
@@ -47,7 +49,7 @@ public class Main {
         Pipe join = new Pipe("join");
         join = new Join(sourcePipe1, sourcePipe2);
 
-       //properties
+        //properties
         Properties properties = new Properties();
         AppProps.setApplicationJarClass(properties, Main.class);
 
@@ -55,6 +57,7 @@ public class Main {
         //flow
         FlowDef flowDef = FlowDef.flowDef()
                 .setName("JoinSubAssembly")
+                .addDescription("joins sourcePipe1 and sourcePipe2")
                 .addSource(sourcePipe1, sourceTap1).addSource(sourcePipe2, sourceTap2)
                 .addTailSink(join, sinkTap);
         Flow flow = new LocalFlowConnector(properties).connect(flowDef);
