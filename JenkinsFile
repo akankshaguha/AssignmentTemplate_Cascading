@@ -1,0 +1,39 @@
+#!groovy
+stage 'setJAVA_HOME'
+node {
+
+     env.JAVA_HOME = "C:\\Program Files\\Java\\jdk1.8.0_45"
+
+     echo env.JAVA_HOME
+}
+stage 'push into gitHub'
+node{
+
+git 'https://github.com/akankshaguha/AssignmentTemplate_Cascading.git'
+bat 'gradle build --info'
+
+}
+
+
+stage 'clean the previous build'
+node{
+bat 'gradle clean'
+}
+
+stage 'build_TheWorkflow'
+node{
+ bat 'gradle build --info'
+
+}
+
+stage 'Checkout from gitHub'
+node {
+git 'https://github.com/akankshaguha/AssignmentTemplate_Cascading.git'
+
+}
+
+
+stage 'clean'
+node{
+bat 'gradle clean'
+}
